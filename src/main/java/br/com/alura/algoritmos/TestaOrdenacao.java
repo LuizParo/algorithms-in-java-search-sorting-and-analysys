@@ -11,11 +11,10 @@ public class TestaOrdenacao {
                 new Produto("Fusca", 17_000D)
         };
 
-        ordena(produtos, produtos.length);
+//        selectionSort(produtos, produtos.length);
+        insertionSort(produtos, produtos.length);
 
-        for (Produto produto : produtos) {
-            System.out.println(produto.getNome() + " custa " + produto.getPreco());
-        }
+        imprime(produtos);
     }
 
     private static int buscaMenor(Produto[] produtos, int inicio, int termino) {
@@ -30,19 +29,41 @@ public class TestaOrdenacao {
         return maisBarato;
     }
 
-    private static void ordena(Produto[] produtos, int quatidadeDeElementos) {
+    private static void selectionSort(Produto[] produtos, int quatidadeDeElementos) {
         for (int atual = 0; atual < quatidadeDeElementos - 1; atual++) {
-            System.out.println("Estou na casimha " + atual);
+            System.out.println("\nEstou na casinha " + atual);
 
             int menor = buscaMenor(produtos, atual, produtos.length - 1);
+            troca(produtos, atual, menor);
+        }
+    }
 
-            System.out.println("Trocando " + atual + " com o " + menor);
-            Produto produtoAtual = produtos[atual];
-            Produto produtoMenor = produtos[menor];
+    private static void insertionSort(Produto[] produtos, int quatidadeDeElementos) {
+        for (int atual = 1; atual < quatidadeDeElementos; atual++) {
+            System.out.println("\nEstou na casinha " + atual);
 
-            System.out.println("Trocando " + produtoAtual.getNome() + " " + produtoMenor.getNome());
-            produtos[atual] = produtoMenor;
-            produtos[menor] = produtoAtual;
+            int analise = atual;
+            while (analise > 0 && produtos[analise].getPreco() < produtos[analise - 1].getPreco()) {
+                troca(produtos, analise, analise - 1);
+                --analise;
+            }
+        }
+    }
+
+    private static void troca(Produto[] produtos, int primeiro, int segundo) {
+        System.out.println("Trocando " + primeiro + " com o " + segundo);
+        Produto primeiroProduto = produtos[primeiro];
+        Produto segundoProduto = produtos[segundo];
+
+        System.out.println("Trocando " + primeiroProduto.getNome() + " com o " + segundoProduto.getNome());
+        produtos[primeiro] = segundoProduto;
+        produtos[segundo] = primeiroProduto;
+    }
+
+    private static void imprime(Produto[] produtos) {
+        System.out.println("\n\n==================");
+        for (Produto produto : produtos) {
+            System.out.println(produto.getNome() + " custa " + produto.getPreco());
         }
     }
 }
